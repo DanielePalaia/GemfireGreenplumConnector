@@ -56,6 +56,6 @@ remove --region='test' --key='one'</br>
 
 2) Use Postgresql copy command instead of insert, update, delete one row every time:</br>
 https://jdbc.postgresql.org/documentation/publicapi/org/postgresql/copy/CopyManager.html
-</br>
+
 3) Change package names (some references to kafka yet)
 
