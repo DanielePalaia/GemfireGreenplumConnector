@@ -16,7 +16,8 @@ gradle build
 
 ## Create the Greenplum database and table to ingest
 
-For the moment the database and table names are embedded in the code, so you need to create
+The jdbc connection string can be passed in input to the AsyncListener during definition but
+for the moment the table name is embedded in the code, so you need to create
 an example database and inside it a test table so defined. The connector will connect with gpadmin user without passwd:
 
 ```
@@ -36,11 +37,13 @@ deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-kafka-list
 y
 deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geodee-kafka-listener/build/libs
 y
-create async-event-queue --id=jdbc-queue --listener=example.geode.kafka.KafkaAsyncEventListener --listener-param=bootstrap.servers#192.168.127.165:9092 --batch-size=5 --batch-time-interval=1000
+create async-event-queue --id=jdbc-queue --listener=example.geode.kafka.KafkaAsyncEventListener --listener-param=--listener-param=jdbcString#jdbc:postgresql://172.16.125.152:5432/example --batch-size=5 --batch-time-interval=1000
 create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
 
 
 ```
+
+jdbcString#jdbc:postgresql://172.16.125.152:5432/example is the connection string to use, specifying the ip address where Greenplum is stored and database name to use.
 
 ## Do some operation on Geode and see operation propagated on Greenplum
 ```
