@@ -32,6 +32,7 @@ create region --name=test --type=PARTITION --async-event-queue-id=kafka-queue
 
 ## Do some operation on Geode and see operation propagated on Greenplum
 Do some put to create items:</br>
+```
 put --region='test' --key='one' --value='one'</br>
 put --region='test' --key='second' --value='second'</br>
 put --region='test' --key='third' --value='third'</br>
@@ -41,3 +42,4 @@ put --region='test' --key='one' --value='eleven'</br>
 
 Do some delete:</br>
 remove --region='test' --key='one'</br>
+```
