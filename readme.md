@@ -62,7 +62,7 @@ remove --region='test' --key='one'</br>
 
 ## What to do next
 
-1) Make the connector generic: pass database name, table, username and passwd during async-event-queue definition with --params option </br>
+1) Make the connector generic: pass table name to use, username and passwd during async-event-queue definition with --params option (as done already for the connection string) </br>
 
 2) Use Postgresql copy command instead of insert, update, delete one row every time:</br>
 https://jdbc.postgresql.org/documentation/publicapi/org/postgresql/copy/CopyManager.html
