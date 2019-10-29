@@ -9,6 +9,11 @@ to ingest on Postgresql rather than kafka. </br>
 It is inserting, updating, deleting one row every time (not efficient use copy instead). </br>
 A Greenplum table will consists on two field id and data where id is related to Gemfire key and data to Gemfire value in a Gemfire region.
 
+## build the project
+
+Build the project with </br>
+gradle build
+
 ## Create the Greenplum database and table to ingest
 
 For the moment the database and table names are embedded in the code, so you need to create
