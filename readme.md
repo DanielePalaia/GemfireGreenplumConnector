@@ -49,15 +49,15 @@ jdbcString#jdbc:postgresql://172.16.125.152:5432/example is the connection strin
 ```
 Do some put to create items:</br>
 
-put --region='test' --key='one' --value='one'</br>
-put --region='test' --key='second' --value='second'</br>
-put --region='test' --key='third' --value='third'</br>
+put --region='test' --key='one' --value='one'
+put --region='test' --key='second' --value='second'
+put --region='test' --key='third' --value='third'
 
-Do some update:</br>
-put --region='test' --key='one' --value='eleven'</br>
+Do some update:
+put --region='test' --key='one' --value='eleven'
 
-Do some delete:</br>
-remove --region='test' --key='one'</br>
+Do some delete:
+remove --region='test' --key='one'
 ```
 
 ## What to do next
