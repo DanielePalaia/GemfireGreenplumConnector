@@ -26,8 +26,8 @@ deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-kafka-list
 y
 deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geodee-kafka-listener/build/libs
 y
-create async-event-queue --id=kafka-queue --listener=example.geode.kafka.KafkaAsyncEventListener --listener-param=bootstrap.servers#192.168.127.165:9092 --batch-size=5 --batch-time-interval=1000
-create region --name=test --type=PARTITION --async-event-queue-id=kafka-queue
+create async-event-queue --id=jdbc-queue --listener=example.geode.kafka.KafkaAsyncEventListener --listener-param=bootstrap.servers#192.168.127.165:9092 --batch-size=5 --batch-time-interval=1000
+create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
 
 
 ```
@@ -45,3 +45,12 @@ put --region='test' --key='one' --value='eleven'</br>
 Do some delete:</br>
 remove --region='test' --key='one'</br>
 ```
+
+## What to do next
+
+1) Make the connector generic: pass database name, table, username and passwd during async-event-queue definition with --params option </br>
+
+2) Use Postgresql copy command instead of insert, update, delete one row every time
+
+3) Change package names
+
