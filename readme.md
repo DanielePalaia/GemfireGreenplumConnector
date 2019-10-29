@@ -2,6 +2,10 @@
 
 This project serves as example on how to create a simple connector from Gemfire to Postgresql/Greenplum using AsynchListener.
 When a modification (INSERT, UPDATE, DELETE) is done on a Gemfire region, it is propagated on the relative Postgresql/Greenplum table.
+It's a modification of:
+https://github.com/charliemblack/geode-kafka-integration-example
+to ingest on Postgresql rather than kafka.
+It is inserting, updating, deleting one row every time (not efficient use copy instead).
 A Greenplum table will consists on two field id and data where id is related to Gemfire key and data to Gemfire value in a Gemfire region.
 
 ## Create the Greenplum database and table to ingest
@@ -50,7 +54,8 @@ remove --region='test' --key='one'</br>
 
 1) Make the connector generic: pass database name, table, username and passwd during async-event-queue definition with --params option </br>
 
-2) Use Postgresql copy command instead of insert, update, delete one row every time
-
-3) Change package names
+2) Use Postgresql copy command instead of insert, update, delete one row every time:</br>
+https://jdbc.postgresql.org/documentation/publicapi/org/postgresql/copy/CopyManager.html
+</br>
+3) Change package names (some references to kafka yet)
 
