@@ -37,7 +37,8 @@ import java.util.Properties;
 public class KafkaAsyncEventListener implements AsyncEventListener, Declarable {
     private static Logger logger = LogService.getLogger();
     private Connection connection = null;
-    private static final String jdbcString = "jdbc:postgresql://172.16.125.152:5432/example";
+   // private static final String jdbcString = "jdbc:postgresql://172.16.125.152:5432/example";
+    private String jdbcString = null;
     private static final String username = "gpadmin";
     private static final String passwd = "";
     private static final String SQL_INSERT = "INSERT INTO TEST (ID, DATA) VALUES (?,?)";
@@ -109,6 +110,10 @@ public class KafkaAsyncEventListener implements AsyncEventListener, Declarable {
 
     @Override
     public void init(Properties props) {
+
+        jdbcString = props.getProperty("jdbcString");
+
+
 
     }
 }

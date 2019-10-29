@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.geode:geode-json:1.3.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.geode/geode-json/1.3.0/e37c4566ca920b76f434f336b53c97bffd5036b1/geode-json-1.3.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.geode/geode-json/1.3.0/c401eba69f18466486a66fde1cb677979368f170/geode-json-1.3.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

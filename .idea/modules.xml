@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/geode-kafka.iml" filepath="$PROJECT_DIR$/.idea/modules/geode-kafka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/geode-kafka-listener/geode-kafka-listener.iml" filepath="$PROJECT_DIR$/.idea/modules/geode-kafka-listener/geode-kafka-listener.iml" group="geode-kafka-listener" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/geode-kafka-listener/geode-kafka-listener_main.iml" filepath="$PROJECT_DIR$/.idea/modules/geode-kafka-listener/geode-kafka-listener_main.iml" group="geode-kafka-listener" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/geode-kafka-listener/geode-kafka-listener_test.iml" filepath="$PROJECT_DIR$/.idea/modules/geode-kafka-listener/geode-kafka-listener_test.iml" group="geode-kafka-listener" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org-postgres/org-postgres.iml" filepath="$PROJECT_DIR$/.idea/modules/org-postgres/org-postgres.iml" group="org-postgres" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org-postgres/org-postgres_main.iml" filepath="$PROJECT_DIR$/.idea/modules/org-postgres/org-postgres_main.iml" group="org-postgres" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/org-postgres/org-postgres_test.iml" filepath="$PROJECT_DIR$/.idea/modules/org-postgres/org-postgres_test.iml" group="org-postgres" />
+    </modules>
+  </component>
+</project>
