@@ -10,6 +10,8 @@ For the moment the database and table names are embedded in the code, so you nee
 an example database and inside it a test table so defined:
 
 ```
+create database example
+\c example
 create table test(id text, data text);
 ```
 
