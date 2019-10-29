@@ -11,7 +11,7 @@ A Greenplum table will consists on two field id and data where id is related to 
 ## Create the Greenplum database and table to ingest
 
 For the moment the database and table names are embedded in the code, so you need to create
-an example database and inside it a test table so defined:
+an example database and inside it a test table so defined. The connector will connect with gpadmin user without passwd:
 
 ```
 create database example
