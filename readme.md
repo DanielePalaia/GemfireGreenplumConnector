@@ -36,7 +36,7 @@ deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-greenplum-
 y
 deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-greenplum-listener/build/libs
 y
-create async-event-queue --id=jdbc-queue --listener=example.geode.kafka.KafkaAsyncEventListener --listener-param=--listener-param=jdbcString#jdbc:postgresql://172.16.125.152:5432/example --batch-size=5 --batch-time-interval=1000
+create async-event-queue --id=jdbc-queue --listener=example.geode.greenplum.GreenplumAsyncEventListener --listener-param=--listener-param=jdbcString#jdbc:postgresql://172.16.125.152:5432/example --batch-size=5 --batch-time-interval=1000
 create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
 
 
