@@ -32,9 +32,9 @@ The script below shows how to start up a Geode system and deploy code to integra
 ```
 start locator --name=locator
 start server --name=server1
-deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-kafka-listener/build/dependancies
+deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-greenplum-listener/build/dependancies
 y
-deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geodee-kafka-listener/build/libs
+deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-greenplum-listener/build/libs
 y
 create async-event-queue --id=jdbc-queue --listener=example.geode.kafka.KafkaAsyncEventListener --listener-param=--listener-param=jdbcString#jdbc:postgresql://172.16.125.152:5432/example --batch-size=5 --batch-time-interval=1000
 create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
