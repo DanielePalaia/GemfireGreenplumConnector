@@ -27,9 +27,10 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import org.postgresql.core.BaseConnection;
+import org.postgresql.PGConnection;
 import org.postgresql.copy.CopyManager;
 import java.io.*;
+
 
 import java.util.List;
 import java.util.Properties;
@@ -41,14 +42,14 @@ public class KafkaAsyncEventListener implements AsyncEventListener, Declarable {
     private String jdbcString = null;
     private static final String username = "gpadmin";
     private static final String passwd = "";
-    private static final String SQL_INSERT = "INSERT INTO TEST (ID, DATA) VALUES (?,?)";
+    //private static final String SQL_INSERT = "INSERT INTO TEST (ID, DATA) VALUES (?,?)";
     private static final String SQL_UPDATE = "UPDATE TEST SET DATA=? WHERE ID=?";
     private static final String SQL_DELETE = "DELETE FROM TEST WHERE ID=?";
 
     @Override
     public boolean processEvents(List<AsyncEvent> events) {
 
-        String buffer = "";
+        String accum = "";
 
         try {
 
@@ -56,34 +57,53 @@ public class KafkaAsyncEventListener implements AsyncEventListener, Declarable {
             if (connection == null) {
                 logger.info("database connection is null creating one...");
                 this.connection = DriverManager.getConnection(jdbcString, username, passwd);
+                this.connection.setAutoCommit(false);
             }
 
             // loop over the events arrived
             for (AsyncEvent asyncEvent : events) {
 
-
                 String value = (String) asyncEvent.getDeserializedValue();
                 String key = (String) asyncEvent.getKey();
                 logger.info("value received: " + value);
 
-                if(asyncEvent.getOperation().equals(Operation.CREATE)) {
-                    PreparedStatement preparedStatement = this.connection.prepareStatement(SQL_INSERT);
+                // Use copy, just accumulate the batch
+                if (asyncEvent.getOperation().equals(Operation.CREATE)) {
+                    /*PreparedStatement preparedStatement = this.connection.prepareStatement(SQL_INSERT);
                     preparedStatement.setString(1, key);
                     preparedStatement.setString(2, value);
-                    preparedStatement.executeUpdate();
-                }
-                else if(asyncEvent.getOperation().equals(Operation.UPDATE)) {
+                    preparedStatement.executeUpdate();*/
+                    accum += key + "," + value + "\n";
+
+                } else if (asyncEvent.getOperation().equals(Operation.UPDATE)) {
                     PreparedStatement preparedStatement = this.connection.prepareStatement(SQL_UPDATE);
                     preparedStatement.setString(1, value);
                     preparedStatement.setString(2, key);
                     preparedStatement.executeUpdate();
+                    connection.commit();
                 }
-                if(asyncEvent.getOperation().equals(Operation.DESTROY)) {
+                if (asyncEvent.getOperation().equals(Operation.DESTROY)) {
                     PreparedStatement preparedStatement = this.connection.prepareStatement(SQL_DELETE);
                     preparedStatement.setString(1, key);
                     //preparedStatement.setString(2, value);
                     preparedStatement.executeUpdate();
+                    connection.commit();
                 }
+
+            }
+
+            // Write INSERT part with copy
+            if (!accum.equals(""))  {
+
+
+                CopyManager cm = ((PGConnection) connection).getCopyAPI();
+                logger.info("I'm copying");
+                Reader inputString = new StringReader(accum);
+                BufferedReader reader = new BufferedReader(inputString);
+                cm.copyIn("copy test from stdin with delimiter ',';", reader);
+                connection.commit();
+                accum = "";
+
 
             }
 
