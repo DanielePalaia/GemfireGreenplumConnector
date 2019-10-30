@@ -16,4 +16,4 @@
  */
 
 rootProject.name='geode-kafka'
-include 'geode-kafka-listener','org-postgres'
+include 'geode-greenplum-listener','org-postgres'

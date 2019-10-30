@@ -49,7 +49,7 @@ subprojects {
     }
 }
 
-project(':geode-kafka-listener') {
+project(':geode-greenplum-listener') {
     dependencies {
         provided 'org.apache.geode:geode-core:1.3.0'
         compile group: 'org.postgresql', name: 'postgresql', version: '42.2.8'
