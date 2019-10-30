@@ -2,10 +2,7 @@
 
 This project serves as example on how to create a simple connector from Gemfire to Postgresql/Greenplum using Gemfire AsyncListener ability.</br>
 https://gemfire.docs.pivotal.io/98/geode/developing/events/implementing_write_behind_event_handler.html</br>
-When a modification (INSERT, UPDATE, DELETE) is done on a Gemfire region, it is propagated on the relative Postgresql/Greenplum table.
-It's a modification of:</br>
-https://github.com/charliemblack/geode-kafka-integration-example </br>
-to ingest on Postgresql rather than kafka. </br>
+When a modification (INSERT, UPDATE, DELETE) is done on a Gemfire region, it is propagated on the relative Postgresql/Greenplum table.</br>
 A Greenplum table will consists on two field id and data where id is related to Gemfire key and data to Gemfire value in a Gemfire region.
 
 ## build the project
