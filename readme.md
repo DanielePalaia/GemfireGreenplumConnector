@@ -6,7 +6,6 @@ When a modification (INSERT, UPDATE, DELETE) is done on a Gemfire region, it is 
 It's a modification of:</br>
 https://github.com/charliemblack/geode-kafka-integration-example </br>
 to ingest on Postgresql rather than kafka. </br>
-It is inserting, updating, deleting one row every time (not efficient use copy instead). </br>
 A Greenplum table will consists on two field id and data where id is related to Gemfire key and data to Gemfire value in a Gemfire region.
 
 ## build the project
@@ -64,7 +63,7 @@ remove --region='test' --key='one'
 
 1) Make the connector generic: pass table name to use, username and passwd during async-event-queue definition with --params option (as done already for the connection string) </br>
 
-2) Use Postgresql copy command instead of insert, update, delete one row every time:</br>
+2) Use Postgresql copy command instead of insert, update, delete one row every time: (IMPLEMENTED ALREADY ON LAST COMMIT)</br>
 https://jdbc.postgresql.org/documentation/publicapi/org/postgresql/copy/CopyManager.html
 
 3) Change package names (some references to kafka yet)
