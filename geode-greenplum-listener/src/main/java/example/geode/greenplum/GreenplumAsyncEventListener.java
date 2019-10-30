@@ -15,7 +15,7 @@
  *
  */
 
-package example.geode.kafka;
+package example.geode.greenplum;
 
 
 import org.apache.geode.cache.Declarable;
@@ -35,7 +35,7 @@ import java.io.*;
 import java.util.List;
 import java.util.Properties;
 
-public class KafkaAsyncEventListener implements AsyncEventListener, Declarable {
+public class GreenplumAsyncEventListener implements AsyncEventListener, Declarable {
     private static Logger logger = LogService.getLogger();
     private Connection connection = null;
    // private static final String jdbcString = "jdbc:postgresql://172.16.125.152:5432/example";
