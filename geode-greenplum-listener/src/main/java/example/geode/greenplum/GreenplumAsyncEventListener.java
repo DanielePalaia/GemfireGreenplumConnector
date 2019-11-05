@@ -41,7 +41,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
    // private static final String jdbcString = "jdbc:postgresql://172.16.125.152:5432/example";
     private String jdbcString = null;
     private static final String username = "gpadmin";
-    private static final String passwd = "0v5gSTqf8nThw8cYLo8p";
+    private static final String passwd = "xxxxxxxx";
     //private static final String SQL_INSERT = "INSERT INTO TEST (ID, DATA) VALUES (?,?)";
     private static final String SQL_UPDATE = "UPDATE TEST SET DATA=? WHERE ID=?";
     private static final String SQL_DELETE = "DELETE FROM TEST WHERE ID=?";
