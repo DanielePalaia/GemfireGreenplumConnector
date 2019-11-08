@@ -38,16 +38,18 @@ import java.util.Properties;
 public class GreenplumAsyncEventListener implements AsyncEventListener, Declarable {
     private static Logger logger = LogService.getLogger();
     private Connection connection = null;
-   // private static final String jdbcString = "jdbc:postgresql://172.16.125.152:5432/example";
     private String jdbcString = null;
-    private static final String username = "gpadmin";
-    private static final String passwd = "XXXXXXXXX";
+    private String username = null;
+    private String passwd = null;
+    private String tablename = null;
     //private static final String SQL_INSERT = "INSERT INTO TEST (ID, DATA) VALUES (?,?)";
-    private static final String SQL_UPDATE = "UPDATE lmw_next.raw_sensor_data SET DATA=? WHERE ID=?";
-    private static final String SQL_DELETE = "DELETE FROM lmw_next.raw_sensor_data WHERE ID=?";
+
 
     @Override
     public boolean processEvents(List<AsyncEvent> events) {
+
+        String SQL_UPDATE = "UPDATE " + tablename + " SET DATA=? WHERE ID=?";
+        String SQL_DELETE = "DELETE FROM " + tablename + " WHERE ID=?";
 
         String accum = "";
 
@@ -69,10 +71,6 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
 
                 // Use copy, just accumulate the batch
                 if (asyncEvent.getOperation().equals(Operation.CREATE)) {
-                    /*PreparedStatement preparedStatement = this.connection.prepareStatement(SQL_INSERT);
-                    preparedStatement.setString(1, key);
-                    preparedStatement.setString(2, value);
-                    preparedStatement.executeUpdate();*/
                     accum += key + "," + value + "\n";
 
                 } else if (asyncEvent.getOperation().equals(Operation.UPDATE)) {
@@ -85,7 +83,6 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
                 if (asyncEvent.getOperation().equals(Operation.DESTROY)) {
                     PreparedStatement preparedStatement = this.connection.prepareStatement(SQL_DELETE);
                     preparedStatement.setString(1, key);
-                    //preparedStatement.setString(2, value);
                     preparedStatement.executeUpdate();
                     connection.commit();
                 }
@@ -100,7 +97,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
                 logger.info("I'm copying");
                 Reader inputString = new StringReader(accum);
                 BufferedReader reader = new BufferedReader(inputString);
-                cm.copyIn("copy lmw_next.raw_sensor_data from stdin with delimiter ',';", reader);
+                cm.copyIn("copy " +  tablename + " from stdin with delimiter ',';", reader);
                 connection.commit();
                 accum = "";
 
@@ -132,6 +129,11 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
     public void init(Properties props) {
 
         jdbcString = props.getProperty("jdbcString");
+        username = props.getProperty("username");
+        passwd =  props.getProperty("passwd");
+        tablename = props.getProperty("tablename");
+
+
 
 
 
