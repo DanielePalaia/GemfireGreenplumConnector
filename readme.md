@@ -4,6 +4,8 @@ This project serves as example on how to create a simple connector from Gemfire 
 https://gemfire.docs.pivotal.io/98/geode/developing/events/implementing_write_behind_event_handler.html</br>
 When a modification (INSERT, UPDATE, DELETE) is done on a Gemfire region, it is propagated on the relative Postgresql/Greenplum table.</br>
 A Greenplum table will consists on two field id and data where id is related to Gemfire key and data to Gemfire value in a Gemfire region.
+The connector is generic and will take in input during configurations: Jdbc connection string, username/passwd and namespace.table of the Greenplum database where we want to ingest the rows.
+It is using Copy to batch rows and insert them in Greenplum to maximize performance.
 
 ## build the project
 
@@ -41,6 +43,7 @@ create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
 
 jdbcString#jdbc:postgresql://172.16.125.152:5432/example is the connection string to use, specifying the ip address where Greenplum is stored and database name to use.</br>
 username#gpadmin,passwd#,tablename#rws.test1 will be the credentials the the table to use for connecting.</br>
+tablename should be specified as schemaname.tablename..
 
 ## Do some operation on Geode and see operation propagated on Greenplum
 ```
