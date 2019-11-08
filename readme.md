@@ -39,8 +39,8 @@ create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
 
 ```
 
-jdbcString#jdbc:postgresql://172.16.125.152:5432/example is the connection string to use, specifying the ip address where Greenplum is stored and database name to use.
-username#gpadmin,passwd#,tablename#rws.test1 will be the credentials the the table to use for connecting.
+jdbcString#jdbc:postgresql://172.16.125.152:5432/example is the connection string to use, specifying the ip address where Greenplum is stored and database name to use.</br>
+username#gpadmin,passwd#,tablename#rws.test1 will be the credentials the the table to use for connecting.</br>
 
 ## Do some operation on Geode and see operation propagated on Greenplum
 ```
