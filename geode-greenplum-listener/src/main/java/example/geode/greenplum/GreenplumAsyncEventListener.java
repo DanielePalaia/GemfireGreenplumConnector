@@ -42,6 +42,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
     private String username = null;
     private String passwd = null;
     private String tablename = null;
+    private String delim = null;
     //private static final String SQL_INSERT = "INSERT INTO TEST (ID, DATA) VALUES (?,?)";
 
 
@@ -71,7 +72,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
 
                 // Use copy, just accumulate the batch
                 if (asyncEvent.getOperation().equals(Operation.CREATE)) {
-                    accum += key + "," + value + "\n";
+                    accum += key + delim + value + "\n";
 
                 } else if (asyncEvent.getOperation().equals(Operation.UPDATE)) {
                     PreparedStatement preparedStatement = this.connection.prepareStatement(SQL_UPDATE);
@@ -97,7 +98,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
                 logger.info("I'm copying");
                 Reader inputString = new StringReader(accum);
                 BufferedReader reader = new BufferedReader(inputString);
-                cm.copyIn("copy " +  tablename + " from stdin with delimiter ',';", reader);
+                cm.copyIn("copy " +  tablename + " from stdin with delimiter '" + delim + "';", reader);
                 connection.commit();
                 accum = "";
 
@@ -132,6 +133,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
         username = props.getProperty("username");
         passwd =  props.getProperty("passwd");
         tablename = props.getProperty("tablename");
+        delim = props.getProperty("delim");
 
 
 
