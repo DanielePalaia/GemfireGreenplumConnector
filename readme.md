@@ -33,13 +33,14 @@ deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-greenplum-
 y
 deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-greenplum-listener/build/libs
 y
-create async-event-queue --id=jdbc-queue --listener=example.geode.greenplum.GreenplumAsyncEventListener --listener-param=--listener-param=jdbcString#jdbc:postgresql://172.16.125.152:5432/example --batch-size=5 --batch-time-interval=1000
+create async-event-queue --id=jdbc-queue --listener=example.geode.greenplum.GreenplumAsyncEventListener --listener-param=jdbcString#jdbc:postgresql://172.16.125.152:5432/dashboard,username#gpadmin,passwd#,tablename#rws.test1 --batch-size=5 --batch-time-interval=1000
 create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
 
 
 ```
 
 jdbcString#jdbc:postgresql://172.16.125.152:5432/example is the connection string to use, specifying the ip address where Greenplum is stored and database name to use.
+username#gpadmin,passwd#,tablename#rws.test1 will be the credentials the the table to use for connecting.
 
 ## Do some operation on Geode and see operation propagated on Greenplum
 ```
@@ -56,12 +57,5 @@ Do some delete:
 remove --region='test' --key='one'
 ```
 
-## What to do next
 
-1) Make the connector generic: pass table name to use, username and passwd during async-event-queue definition with --params option (as done already for the connection string) </br>
-
-2) Use Postgresql copy command instead of insert, update, delete one row every time: (IMPLEMENTED ALREADY ON LAST COMMIT)</br>
-https://jdbc.postgresql.org/documentation/publicapi/org/postgresql/copy/CopyManager.html
-
-3) Change package names (some references to kafka yet)
 
