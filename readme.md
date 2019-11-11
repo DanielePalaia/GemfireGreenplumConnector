@@ -21,7 +21,7 @@ an example database and inside it a test table so defined. The connector will co
 ```
 create database example
 \c example
-create table test(id text, data text);
+create table test(id text, data json);
 ```
 
 ## How to deploy the project in Geode
@@ -35,29 +35,33 @@ deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-greenplum-
 y
 deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-greenplum-listener/build/libs
 y
-create async-event-queue --id=jdbc-queue --listener=example.geode.greenplum.GreenplumAsyncEventListener --listener-param=jdbcString#jdbc:postgresql://172.16.125.152:5432/dashboard,username#gpadmin,passwd#,tablename#rws.test1 --batch-size=5 --batch-time-interval=1000
+create async-event-queue --id=jdbc-queue --listener=example.geode.greenplum.GreenplumAsyncEventListener --listener-param=jdbcString#jdbc:postgresql://172.16.125.152:5432/dashboard,username#gpadmin,passwd#,tablename#rws.test1,delim#|,rejectlimit#10 --batch-size=3 --batch-time-interval=3000000
 create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
 
 
 ```
 
+## How to specify input
+Input are specified with  --listener-param option where:
 jdbcString#jdbc:postgresql://172.16.125.152:5432/example is the connection string to use, specifying the ip address where Greenplum is stored and database name to use.</br>
-username#gpadmin,passwd#,tablename#rws.test1 will be the credentials the the table to use for connecting.</br>
-tablename should be specified as schemaname.tablename..
+username#gpadmin,passwd# are the credentials to use to connect to GPDB
+tablename#rws.test1 will be the schemaname.tablename to use in our case rws.table1 </br>
+delim#| will be the delimiter to use by the copy command: in this case pipe
+rejectlimit#10 will be the reject limit option by the copy command if reached all the copy transaction will be rejected
 
-## Do some operation on Geode and see operation propagated on Greenplum
+## Do some operation on Geode with json and see operation propagated on Greenplum
 ```
 Do some put to create items:</br>
 
-put --region='test' --key='one' --value='one'
-put --region='test' --key='second' --value='second'
-put --region='test' --key='third' --value='third'
+put --region=test --key='first' --value='{"name": "John", "age": "31", "city": "New York"}'
+put --region='test' --key='second' --value='{"name": "John", "age": "31", "city": "New York"}'
+put --region='test' --key='third' ---value='{"name": "John", "age": "31", "city": "New York"}'
 
 Do some update:
-put --region='test' --key='one' --value='eleven'
+put --region='test' --key='first' --value='{"name": "John", "age": "31", "city": "New YorkUpdated"}'
 
 Do some delete:
-remove --region='test' --key='one'
+remove --region='test' --key='first'
 ```
 
 
