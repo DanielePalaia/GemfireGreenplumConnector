@@ -19,9 +19,10 @@ for the moment the table name is embedded in the code, so you need to create
 an example database and inside it a test table so defined. The connector will connect with gpadmin user without passwd:
 
 ```
-create database example
-\c example
-create table test(id text, data json);
+create database dashboard
+\c dashboard
+create schema rws;
+create table rws.test(id text, data json);
 ```
 
 ## How to deploy the project in Geode
@@ -35,7 +36,7 @@ deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-greenplum-
 y
 deploy --dir=/Users/dpalaia/Downloads/GemfireGreenplumConnector/geode-greenplum-listener/build/libs
 y
-create async-event-queue --id=jdbc-queue --listener=example.geode.greenplum.GreenplumAsyncEventListener --listener-param=jdbcString#jdbc:postgresql://172.16.125.152:5432/dashboard,username#gpadmin,passwd#,tablename#rws.test1,delim#|,rejectlimit#10 --batch-size=3 --batch-time-interval=3000000
+create async-event-queue --id=jdbc-queue --listener=example.geode.greenplum.GreenplumAsyncEventListener --listener-param=jdbcString#jdbc:postgresql://172.16.125.152:5432/dashboard,username#gpadmin,passwd#,tablename#rws.test,delim#|,rejectlimit#10 --batch-size=3 --batch-time-interval=3000000
 create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
 
 
@@ -45,7 +46,7 @@ create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
 Input are specified with  --listener-param option where:</br></br>
 **jdbcString#jdbc:postgresql://172.16.125.152:5432/example** is the connection string to use, specifying the ip address where Greenplum is stored and database name to use.</br>
 **username#gpadmin,passwd#** are the credentials to use to connect to GPDB </br>
-**tablename#rws.test1** will be the schemaname.tablename to use in our case rws.table1 </br>
+**tablename#rws.test** will be the schemaname.tablename to use in our case rws.table1 </br>
 **delim#|** will be the delimiter to use by the copy command: in this case pipe</br>
 **rejectlimit#10** will be the reject limit option by the copy command if reached all the copy transaction will be rejected
 
