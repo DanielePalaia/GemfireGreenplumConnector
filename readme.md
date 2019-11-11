@@ -42,12 +42,12 @@ create region --name=test --type=PARTITION --async-event-queue-id=jdbc-queue
 ```
 
 ## How to specify input
-Input are specified with  --listener-param option where:
-jdbcString#jdbc:postgresql://172.16.125.152:5432/example is the connection string to use, specifying the ip address where Greenplum is stored and database name to use.</br>
-username#gpadmin,passwd# are the credentials to use to connect to GPDB
-tablename#rws.test1 will be the schemaname.tablename to use in our case rws.table1 </br>
-delim#| will be the delimiter to use by the copy command: in this case pipe
-rejectlimit#10 will be the reject limit option by the copy command if reached all the copy transaction will be rejected
+Input are specified with  --listener-param option where:</br></br>
+**jdbcString#jdbc:postgresql://172.16.125.152:5432/example** is the connection string to use, specifying the ip address where Greenplum is stored and database name to use.</br>
+**username#gpadmin,passwd#** are the credentials to use to connect to GPDB
+**tablename#rws.test1** will be the schemaname.tablename to use in our case rws.table1 </br>
+**delim#|** will be the delimiter to use by the copy command: in this case pipe
+**rejectlimit#10** will be the reject limit option by the copy command if reached all the copy transaction will be rejected
 
 ## Do some operation on Geode with json and see operation propagated on Greenplum
 ```
