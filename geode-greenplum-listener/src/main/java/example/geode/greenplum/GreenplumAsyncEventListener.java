@@ -43,6 +43,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
     private String passwd = null;
     private String tablename = null;
     private String delim = null;
+    private String rejectLimit = null;
     //private static final String SQL_INSERT = "INSERT INTO TEST (ID, DATA) VALUES (?,?)";
 
 
@@ -60,7 +61,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
             if (connection == null) {
                 logger.info("database connection is null creating one...");
                 this.connection = DriverManager.getConnection(jdbcString, username, passwd);
-                this.connection.setAutoCommit(false);
+                //this.connection.setAutoCommit(false);
             }
 
             // loop over the events arrived
@@ -79,13 +80,13 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
                     preparedStatement.setString(1, value);
                     preparedStatement.setString(2, key);
                     preparedStatement.executeUpdate();
-                    connection.commit();
+                    //connection.commit();
                 }
                 if (asyncEvent.getOperation().equals(Operation.DESTROY)) {
                     PreparedStatement preparedStatement = this.connection.prepareStatement(SQL_DELETE);
                     preparedStatement.setString(1, key);
                     preparedStatement.executeUpdate();
-                    connection.commit();
+                    //connection.commit();
                 }
 
             }
@@ -98,8 +99,8 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
                 logger.info("I'm copying");
                 Reader inputString = new StringReader(accum);
                 BufferedReader reader = new BufferedReader(inputString);
-                cm.copyIn("copy " +  tablename + " from stdin with delimiter '" + delim + "';", reader);
-                connection.commit();
+                cm.copyIn("copy " +  tablename + " from stdin with delimiter '" + delim + "' LOG ERRORS SEGMENT REJECT LIMIT " + rejectLimit + ";", reader);
+                //connection.commit();
                 accum = "";
 
 
@@ -108,7 +109,13 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
 
         } catch (Exception e) {
             logger.error("Could not insert data to Postgresql/Greenplum.", e);
-            return false;
+            /*try  {
+                connection.commit();
+            }
+            catch (Exception ex)  {
+
+            }*/
+            return true;
         }
 
         return true;
@@ -134,9 +141,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
         passwd =  props.getProperty("passwd");
         tablename = props.getProperty("tablename");
         delim = props.getProperty("delim");
-
-
-
+        rejectLimit = props.getProperty("rejectlimit");
 
 
     }
