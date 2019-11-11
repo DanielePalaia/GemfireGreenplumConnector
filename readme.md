@@ -64,5 +64,6 @@ Do some delete:
 remove --region='test' --key='first'
 ```
 
+## How to detect copy errors
 
-
+Use the SELECT * from gp_read_error_log('rws.test1'); to read the errors detected by the copy command and the entries skipped.
