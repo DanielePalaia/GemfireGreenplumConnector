@@ -69,7 +69,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
 
                 String value = (String) asyncEvent.getDeserializedValue();
                 String key = (String) asyncEvent.getKey();
-                logger.info("value received: " + value);
+                logger.info("value received: " + value + " operation received: " + asyncEvent.getOperation());
 
                 // Use copy, just accumulate the batch
                 if (asyncEvent.getOperation().equals(Operation.CREATE) || asyncEvent.getOperation().equals(Operation.PUTALL_CREATE)) {
