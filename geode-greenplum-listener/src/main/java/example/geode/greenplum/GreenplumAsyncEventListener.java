@@ -72,10 +72,10 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
                 logger.info("value received: " + value);
 
                 // Use copy, just accumulate the batch
-                if (asyncEvent.getOperation().equals(Operation.CREATE)) {
+                if (asyncEvent.getOperation().equals(Operation.CREATE) || asyncEvent.getOperation().equals(Operation.PUTALL_CREATE)) {
                     accum += key + delim + value + "\n";
 
-                } else if (asyncEvent.getOperation().equals(Operation.UPDATE)) {
+                } else if (asyncEvent.getOperation().equals(Operation.UPDATE) || asyncEvent.getOperation().equals(Operation.PUTALL_UPDATE)) {
                     PreparedStatement preparedStatement = this.connection.prepareStatement(SQL_UPDATE);
                     preparedStatement.setString(1, value);
                     preparedStatement.setString(2, key);
