@@ -61,7 +61,9 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
             if (connection == null) {
                 logger.info("database connection is null creating one...");
                 this.connection = DriverManager.getConnection(jdbcString, username, passwd);
-                //this.connection.setAutoCommit(false);
+            } else if (connection.isClosed())  {
+                logger.info("database connection is closed creating new one...");
+                this.connection = DriverManager.getConnection(jdbcString, username, passwd);
             }
 
             // loop over the events arrived
@@ -69,7 +71,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
 
                 String value = (String) asyncEvent.getDeserializedValue();
                 String key = (String) asyncEvent.getKey();
-                logger.info("value received: " + value + " operation received: " + asyncEvent.getOperation());
+                //logger.info("value received: " + value + " operation received: " + asyncEvent.getOperation());
 
                 // Use copy, just accumulate the batch
                 if (asyncEvent.getOperation().equals(Operation.CREATE) || asyncEvent.getOperation().equals(Operation.PUTALL_CREATE)) {
@@ -96,7 +98,7 @@ public class GreenplumAsyncEventListener implements AsyncEventListener, Declarab
 
 
                 CopyManager cm = ((PGConnection) connection).getCopyAPI();
-                logger.info("I'm copying");
+                logger.info("I'm copying with closeable version");
                 Reader inputString = new StringReader(accum);
                 BufferedReader reader = new BufferedReader(inputString);
                 cm.copyIn("copy " +  tablename + " from stdin with delimiter '" + delim + "' LOG ERRORS SEGMENT REJECT LIMIT " + rejectLimit + ";", reader);
